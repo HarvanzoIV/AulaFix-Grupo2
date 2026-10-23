@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Incidencias</title>
 </head>
+
 <body>
 
     <h1>Control de Incidencias</h1>
-    
+
     <p>Complete el formulario para poder tramitar su incidencia.</p>
 
-    <form method="POST" action="guardar.php">
+    <form method="POST" action="base_de_datos/guardar.php">
 
         <label>Problema:</label>
         <input type="text" name="problema" required>
@@ -44,6 +46,5 @@
     </form>
 
 </body>
+
 </html>
-
-
