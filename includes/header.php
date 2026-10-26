@@ -9,8 +9,13 @@
     <title>Document</title>
 </head>
 <body>
+
+    
     <div class= "bg-info p-3">
-        <h1 class = "text-center"> HEADER </h1>
+        <h1 class = "text-center">HEADER</h1>
+        <form method = "POST" action = "index.php">
+        <input type = "button" value = "Volver">
+        </form>
     </div>
     
 </body>
