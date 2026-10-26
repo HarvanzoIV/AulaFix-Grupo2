@@ -17,7 +17,7 @@
             <br><br>
             <label>Nombre:</label><input type="text" name="nombre" required>
             <br><br>
-            <label>Apellidos:</label><input type="text" name="nombre" required>
+            <label>Apellidos:</label><input type="text" name="apellidos" required>
             <br><br>
             <label>Nombre de usuario:</label><br>
             <input type="text" name="user" required>
