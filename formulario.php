@@ -11,7 +11,7 @@
     
     <p>Complete el formulario para poder tramitar su incidencia.</p>
 
-    <form method="POST" action="guardar.php">
+    <form method="POST" action="base_de_datos/guardar.php">
 
         <label>Problema:</label>
         <input type="text" name="problema" required>
