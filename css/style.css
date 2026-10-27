@@ -3,7 +3,8 @@ table {
   width: 100%;
 }
 
-th,td {
+th,
+td {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: left;
@@ -19,6 +20,11 @@ th {
 }
 
 .eliminar {
+  background: none;
+  border: none;
   color: red;
-  text-decoration: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
 }

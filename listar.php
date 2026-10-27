@@ -1,6 +1,19 @@
 <?php
 require 'base_de_datos/db.php';
 
+// Eliminar incidencia
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
+    $id = (int) $_POST['id'];
+
+    $stmt = $cn->prepare("DELETE FROM incidencias WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: listar.php");
+    exit;
+}
+
 $sql = "SELECT * FROM incidencias";
 $resultado = $cn->query($sql);
 ?>
@@ -43,19 +56,24 @@ $resultado = $cn->query($sql);
                     <td><?= htmlspecialchars($fila['prioridad']) ?></td>
                     <td><?= htmlspecialchars($fila['situacion']) ?></td>
                     <td>
-                        <a class="editar"
-                            href="editar.php?id=<?= $fila['id'] ?>">
-                            Editar
-                        </a>
+                        <form action="editar.php" method="GET" style="display:inline;">
+                            <input type="hidden" name="id" value="<?= $fila['id'] ?>">
+                            <button type="submit" class="editar">
+                                Editar
+                            </button>
+                        </form>
 
                         |
 
-                        <a class="eliminar"
-                            href="eliminar.php?id=<?= $fila['id'] ?>"
-                            onclick="return confirm('¿Seguro que deseas eliminar esta incidencia?');">
-                            Eliminar
-                        </a>
+                        <form method="POST" style="display:inline;"
+                            onsubmit="return confirm('¿Seguro que deseas eliminar esta incidencia?');">
+                            <input type="hidden" name="id" value="<?= $fila['id'] ?>">
+                            <button type="submit" name="eliminar" class="eliminar">
+                                Eliminar
+                            </button>
+                        </form>
                     </td>
+
                 </tr>
 
             <?php endwhile; ?>
