@@ -2,10 +2,10 @@
 
 require 'db.php';
 
-// Comprobar que el formulario fue enviado
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Recoger datos
+
     $nombre = trim($_POST['nombre'] ?? '');
     $apellidos = trim($_POST['apellidos'] ?? '');
     $correo = trim($_POST['correo'] ?? '');
@@ -13,40 +13,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $key1 = trim($_POST['key1'] ?? '');
     $key2 = trim($_POST['key2'] ?? '');
 
-    if ($key1 == $key2) {
-        $stmt = $cn->prepare("SELECT correo FROM usuarios WHERE correo=?");
-        $stmt->bind_param("s", $email);
-//FALTA TODO LO ABAJO
-
-        if ($stmt->affected_rows == 0) {
-            $stmt2 = $cn->prepare(
-                'INSERT INTO alumnos(nombre,email,nota) VALUES (?,?,?)'
-            );
-            $stmt2->bind_param('ssd', $nombre, $email, $nota);
-            $stmt2->execute();
-        }
-
+    if ($key1 !== $key2) {
+        die("Las contraseñas no coincide");
     }
-    // Consulta SQL
-    $sql = "INSERT INTO incidencias
-            (problema, ubicacion, prioridad, situacion)
-            VALUES (?, ?, ?, ?)";
 
-    // Preparar consulta
-    $stmt = $cn->prepare($sql);
-
-    // Sustituir parámetros
-    $stmt->bind_param(
-        "ssss",
-        $problema,
-        $ubicacion,
-        $prioridad,
-        $situacion
-    );
-
-    // Ejecutar INSERT
+    $sqlUsuario = "SELECT id FROM usuarios WHERE usuario = ?";
+    $stmt = $cn->prepare($sqlUsuario);
+    $stmt->bind_param("s", $usuario);
     $stmt->execute();
+    $resultado = $stmt->get_result();
 
-    echo "Incidencia guardada correctamente";
+    if ($resultado->num_rows > 0) {
+        die("El nombre de usuario ya existe");
+    }
+
+    $sqlCorreo = "SELECT id FROM usuarios WHERE correo = ?";
+    $stmt = $cn->prepare($sqlCorreo);
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows > 0) {
+        die("El correo electrónico ya existe");
+    }
+
+    $sqlInsert = "INSERT INTO usuarios (nombre,apellidos,correo,usuario,contrasena)
+              VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $cn->prepare($sqlInsert);
+    $stmt->bind_param("sssss", $nombre, $apellidos, $correo, $usuario, $key1);
+    if ($stmt->execute()) {
+
+        // Redirigir a otra página
+        header("Location: ../login.php");
+        exit();
+
+    } else {
+        echo "Error al guardar: " . $stmt->error;
+    }
 }
 ?>

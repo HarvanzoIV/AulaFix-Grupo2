@@ -12,12 +12,14 @@
         <form method="post" action="login.php"><!--Boton de volver-->
             <button type="submit">Volver</button>
         </form>
-        <form method="post" action=""><!--Añadir fºuncion del formulario-->
+        <form method="post" action="base_de_datos/registrar.php"><!--Añadir fºuncion del formulario-->
             <h1>Crear nueva cuenta</h1>
             <br><br>
             <label>Nombre:</label><input type="text" name="nombre" required>
             <br><br>
             <label>Apellidos:</label><input type="text" name="apellidos" required>
+            <br><br>
+            <label>Correo:</label><input type="email" name="correo" required>
             <br><br>
             <label>Nombre de usuario:</label><br>
             <input type="text" name="user" required>

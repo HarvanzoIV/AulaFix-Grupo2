@@ -4,10 +4,10 @@ try {
 $host = 'localhost';
 $user = 'root'; // En XAMPP, normalmente 'root'
 $pass = 'root'; // En XAMPP, normalmente ''
-$db = 'escuela';
+$db = 'aulafix';
 $cn = new mysqli($host, $user, $pass, $db);
 $cn->set_charset('utf8mb4');
-echo "conexion exitosa";
+
 } catch (mysqli_sql_exception $e) {
 // En producción, registra el error y muestra un mensaje genérico.
 exit('Error de conexión a la base de datos.');
