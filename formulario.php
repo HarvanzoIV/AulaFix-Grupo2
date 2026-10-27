@@ -43,6 +43,8 @@
 
         <input type="submit" value="Guardar">
 
+        <a href="listar.php">Ver listado</a>
+
     </form>
 
 </body>

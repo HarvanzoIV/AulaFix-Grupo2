@@ -31,5 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ejecutar INSERT
     $stmt->execute();
 
-    echo "Incidencia guardada correctamente";
+    header("Location: ../listar.php");
+    exit();
+
 }
