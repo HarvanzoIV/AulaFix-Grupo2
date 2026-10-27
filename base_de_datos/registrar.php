@@ -5,16 +5,17 @@ require 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-
+    //Recoger los datos del formulario register.php
     $nombre = trim($_POST['nombre'] ?? '');
     $apellidos = trim($_POST['apellidos'] ?? '');
     $correo = trim($_POST['correo'] ?? '');
     $usuario = trim($_POST['user'] ?? '');
     $key1 = trim($_POST['key1'] ?? '');
     $key2 = trim($_POST['key2'] ?? '');
-
+    //valida las 2 contraseñas 
     if ($key1 !== $key2) {
         die("Las contraseñas no coincide");
+        //si falla entra esta seccion
     }
 
     $sqlUsuario = "SELECT id FROM usuarios WHERE usuario = ?";
