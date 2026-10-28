@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['usuario'] = $usuario;
         $_SESSION['key']=$fila['contrasena'];
 
-        header("Location: principal.php");
+        header("Location: ../formulario.php");
         exit();
 
 
