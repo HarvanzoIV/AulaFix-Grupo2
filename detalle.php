@@ -23,21 +23,26 @@ $resultado = $cn->query($sql);
 
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Incidencias</title>
+    <title>Listado de Incidencias </title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <h1>Listado de Incidencias</h1>
+    <h1>Listado de Incidencias Completo</h1>
 
     <a href="formulario.php">Nueva incidencia</a>
 
     <br><br>
 
+    <label for="buscar">Buscar incidencia (Problema):</label>
+    <input type="text" id="buscar" placeholder="Escribe para filtrar...">
+
+    <br><br>
+
     <?php if ($resultado->num_rows > 0): ?>
 
-        <table>
+        <table id="tablaIncidencias">
             <tr>
                 <th>ID</th>
                 <th>Problema</th>
@@ -89,3 +94,5 @@ $resultado = $cn->query($sql);
 </body>
 
 </html>
+
+<script src="js/script.js"></script>
