@@ -9,7 +9,7 @@
     <h1>AulaFix-Grupo2</h1>
     
     <div>
-        <form method="POST" action=""><!--Falta poner accion del formulario-->
+        <form method="POST" action="base_de_datos/cuenta.php"><!--Falta poner accion del formulario-->
 
             <label>Usuario:</label><input type="text" name="user" required>
             <br><br>
