@@ -35,9 +35,14 @@ $resultado = $cn->query($sql);
 
     <br><br>
 
+    <label for="buscar">Buscar incidencia:</label>
+    <input type="text" id="buscar" placeholder="Escribe para filtrar...">
+
+    <br><br>
+
     <?php if ($resultado->num_rows > 0): ?>
 
-        <table>
+        <table id="tablaIncidencias">
             <tr>
                 <th>ID</th>
                 <th>Problema</th>
@@ -61,6 +66,16 @@ $resultado = $cn->query($sql);
 
                         |
 
+                        <form action="detalle.php" methog="GET" style="display:inline;">
+                            <input type="hidden" name="id" value="<?= $fila['id'] ?>">
+                            <button type="submit" class="detalle">
+                                Detalles
+                            </button>
+
+                        </form>
+
+                        |
+
                         <form method="POST" style="display:inline;"
                             onsubmit="return confirm('¿Seguro que deseas eliminar esta incidencia?');">
                             <input type="hidden" name="id" value="<?= $fila['id'] ?>">
@@ -69,13 +84,7 @@ $resultado = $cn->query($sql);
                             </button>
                         </form>
 
-                        <form action="detalle.php" methog = "GET" style="display:inline;">
-                            <input type="hidden" name="id" value="<?= $fila['id'] ?>">
-                            <button type ="submit" class ="detalle">
-                                Detalles
-                            </button>       
-                        
-                        </form>
+
                     </td>
 
                 </tr>
@@ -93,3 +102,4 @@ $resultado = $cn->query($sql);
 </body>
 
 </html>
+<script src="js/script.js"></script>
