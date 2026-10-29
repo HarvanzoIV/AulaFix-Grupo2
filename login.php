@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
+
 <body>
     <h1>AulaFix-Grupo2</h1>
-    
+
     <div>
         <form method="POST" action=""><!--Falta poner accion del formulario-->
 
@@ -22,6 +24,7 @@
         <a href="register.php">Crear nueva cuenta</a><!--Falta link hacia pagina de creacion de cuenta-->
 
     </div>
-    
+
 </body>
+
 </html>
