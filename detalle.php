@@ -39,6 +39,13 @@ $resultado = $cn->query($sql);
     <input type="text" id="buscar" placeholder="Escribe para filtrar...">
 
     <br><br>
+    <form action = "listar.php" method ="POST" style="display:inline;">
+        <input type="hidden" name="id" value="<?= $fila['id'] ?>">
+        <button type = "submit" class = "Cerrar_detalles">
+        Cerrar detalles
+        </button>
+    </form>
+    <br><br>
 
     <?php if ($resultado->num_rows > 0): ?>
 
@@ -77,6 +84,8 @@ $resultado = $cn->query($sql);
                                 Eliminar
                             </button>
                         </form>
+
+                        
                     </td>
 
                 </tr>
