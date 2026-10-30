@@ -1,3 +1,12 @@
+<?php
+session_start();
+$usuario=$_SESSION['usuario']??'';
+
+if(empty($usuario)){
+    header("Location: login.php");
+}
+require 'includes/header.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

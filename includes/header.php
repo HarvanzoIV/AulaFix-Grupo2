@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +14,14 @@
 <body>
 
     <div class="bg-info p-3 d-flex justify-content-between align-items-center">
-        <a onclick="history.back()" class="btn btn-secondary">Volver</a>
+        
+            <a onclick="history.back()" class="btn btn-secondary">Volver</a>
+        
+        
         
         <h1 class="m-0 text-center flex-grow-1">AulaFix</h1>
 
-        <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
+        <a href="includes/logout.php" class="btn btn-danger">Cerrar Sesión</a>
     </div>
     
 </body>
