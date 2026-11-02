@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <h1>AulaFix-Grupo2</h1>
 
     <div>
-        <form method="POST" action="base_de_datos/cuenta.php"><!--Falta poner accion del formulario-->
+        <form method="POST" action="base_de_datos/cuenta.php">
 
             <label>Usuario:</label><input type="text" name="user" required>
             <br><br>
@@ -28,3 +29,4 @@
 </body>
 
 </html>
+<script src="js/script.js"></script>

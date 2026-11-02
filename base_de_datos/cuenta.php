@@ -24,24 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         session_start();
 
-        
+
         $_SESSION['usuario'] = $usuario;
-        $_SESSION['key']=$fila['contrasena'];
+        $_SESSION['key'] = $fila['contrasena'];
 
-        header("Location: ../formulario.php");
+        header("Location: ../listar.php");
         exit();
-
-
     } else {
 
         die("Contraseña incorrecta");
-
     }
-
 }
-
-
-
-
-
-?>

@@ -1,17 +1,12 @@
-document.getElementById('buscar').addEventListener('keyup', function () {
+document.getElementById("buscar").addEventListener("keyup", function () {
+  let filtro = this.value.toLowerCase();
+  let filas = document.querySelectorAll("#tablaIncidencias tr");
 
-    let filtro = this.value.toLowerCase();
-    let filas = document.querySelectorAll('#tablaIncidencias tr');
+  filas.forEach((fila, indice) => {
+    if (indice === 0) return;
 
-    filas.forEach((fila, indice) => {
+    let problema = fila.cells[1].textContent.toLowerCase();
 
-        if (indice === 0) return;
-
-        let problema = fila.cells[1].textContent.toLowerCase();
-
-        fila.style.display = problema.includes(filtro)
-            ? ''
-            : 'none';
-    });
-
+    fila.style.display = problema.includes(filtro) ? "" : "none";
+  });
 });
