@@ -47,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $nombre, $apellidos, $correo, $usuario, $key1);
     if ($stmt->execute()) {
 
-        // Redirigir a otra página
-        header("Location: ../login.php");
-        exit();
+        $_SESSION['success'] = 'Cuenta creada correctamente. Ya puedes iniciar sesión.';
+        header('Location: ../login.php');
+        exit;
 
     } else {
         $_SESSION['error']= "Error en el base de datos.";

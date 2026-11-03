@@ -101,6 +101,13 @@ session_start();
                     </div>
 
                 </div>
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="success">
+                        <span class="icono">✅</span>
+                        <span><?= htmlspecialchars($_SESSION['success']) ?></span>
+                    </div>
+                    <?php unset($_SESSION['success']); ?>
+                <?php endif; ?>
                 <?php if (isset($_SESSION['error'])): ?>
                     <div class="error">
                         <span class="icono">❌</span>

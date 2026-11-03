@@ -1931,3 +1931,27 @@ tr[hidden] {
     color: #9b2323;
     font-weight: 600;
 }
+
+.success{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background-color: #d1f0d8;
+    color: #1e6b36;
+
+    border-left: 4px solid #28a745;
+    border-radius: 8px;
+
+    padding: 10px 14px;
+    margin: 15px auto;
+
+    width: fit-content;
+
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.success .icono{
+    font-size: 18px;
+}
