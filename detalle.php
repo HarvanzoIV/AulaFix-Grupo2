@@ -97,8 +97,20 @@ $camposLargos = ['problema', 'descripcion', 'observaciones', 'comentarios', 'det
         </nav>
 
         <div class="sidebar-bottom">
-            <div class="system-state"><span class="system-dot"></span> Sistema operativo</div>
+    <div class="user-panel">
+
+        <div class="user-greeting">
+            Hola <?php echo htmlspecialchars($_SESSION['usuario']); ?> 👋
         </div>
+
+        <form action="includes/logout.php" method="post">
+            <button type="submit" class="logout-btn">
+                Cerrar sesión🚪
+            </button>
+        </form>
+
+    </div>
+</div>
     </aside>
 
     <main class="main-content">

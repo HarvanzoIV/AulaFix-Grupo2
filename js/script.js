@@ -177,7 +177,6 @@
   function iniciarAulaFix() {
     initTheme();
     initSearch();
-    initRememberSession();
   }
 
   if (document.readyState === "loading") {
@@ -187,24 +186,3 @@
   }
 })();
 
-function initRememberSession() {
-
-    const rememberCheckbox = document.getElementById("keep-logged");
-
-    if (!rememberCheckbox) return;
-
-    const savedState = localStorage.getItem("aulafix_remember");
-
-    if (savedState === "true") {
-        rememberCheckbox.checked = true;
-    }
-
-    rememberCheckbox.addEventListener("change", function () {
-
-        localStorage.setItem(
-            "aulafix_remember",
-            this.checked
-        );
-
-    });
-}

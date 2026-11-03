@@ -1,4 +1,10 @@
 
+<?php
+session_start();
+if(isset($_SESSION['usuario'])){
+    header("Location: formulario.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -115,13 +121,7 @@
                     </div>
 
                 </div>
-                
-                <div class="remember-session">
-                    <input type="checkbox" id="keep-logged" name="keep-logged">
-                    <label for="keep-logged">
-                        Mantener sesión iniciada
-                    </label>
-                </div>
+            
 
                 <button type="submit" class="auth-submit">
 
