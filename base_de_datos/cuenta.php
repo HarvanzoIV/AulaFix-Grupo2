@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require 'db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = trim($_POST['user'] ?? '');
@@ -13,29 +13,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = $stmt->get_result();
 
     if ($resultado->num_rows == 0) {
-        die("No existe el usuario.");
+        $_SESSION['error']= "El usuario o la contraseña introducidos no son correctos.";
+        header("Location: ../login.php");
+        exit();
     }
 
     $fila = $resultado->fetch_assoc();
 
     if ($key == $fila['contrasena']) {
-
-        echo "Login correcto";
-
-        session_start();
-
-        
         $_SESSION['usuario'] = $usuario;
         $_SESSION['key']=$fila['contrasena'];
 
-        header("Location: ../formulario.php");
+        header("Location: ../listar.php");
         exit();
 
 
     } else {
 
-        die("Contraseña incorrecta");
-
+        $_SESSION['error']= "El usuario o la contraseña introducidos no son correctos.";
+        header("Location: ../login.php");
+        exit();
     }
 
 }

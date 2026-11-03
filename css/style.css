@@ -1885,3 +1885,29 @@ tr[hidden] {
     font-size: 10px;
   }
 }
+
+.error{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    background-color: #f8d7da;
+    color: #842029;
+
+    border-left: 4px solid #dc3545;
+    border-radius: 6px;
+
+    padding: 8px 12px;
+    margin-top: 15px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    width: auto;
+    min-width: unset;
+}
+
+.icono{
+    font-size: 18px;
+    line-height: 1;
+}

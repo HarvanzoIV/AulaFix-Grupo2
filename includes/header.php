@@ -14,7 +14,7 @@
 <body>
 
     <div class="bg-info p-3 d-flex justify-content-between align-items-center">
-        
+            
             <a onclick="history.back()" class="btn btn-secondary">Volver</a>
         
         
