@@ -1,4 +1,6 @@
-
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -35,11 +37,7 @@
                 ← Volver
             </a>
 
-            <button
-                class="theme-toggle"
-                id="theme-toggle"
-                type="button"
-                aria-pressed="false">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
 
                 <span class="theme-icon" aria-hidden="true">☾</span>
                 <span>Modo oscuro</span>
@@ -78,10 +76,7 @@
 
 
             <!-- FORMULARIO DE REGISTRO -->
-            <form
-                method="POST"
-                action="base_de_datos/registrar.php"
-                class="auth-form auth-form-register">
+            <form method="POST" action="base_de_datos/registrar.php" class="auth-form auth-form-register">
 
 
                 <!-- NOMBRE -->
@@ -93,12 +88,7 @@
 
                         <span class="auth-input-icon" aria-hidden="true">♙</span>
 
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            placeholder="Tu nombre"
-                            autocomplete="given-name"
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" autocomplete="given-name"
                             required>
 
                     </div>
@@ -115,13 +105,8 @@
 
                         <span class="auth-input-icon" aria-hidden="true">♙</span>
 
-                        <input
-                            type="text"
-                            id="apellidos"
-                            name="apellidos"
-                            placeholder="Tus apellidos"
-                            autocomplete="family-name"
-                            required>
+                        <input type="text" id="apellidos" name="apellidos" placeholder="Tus apellidos"
+                            autocomplete="family-name" required>
 
                     </div>
 
@@ -137,13 +122,8 @@
 
                         <span class="auth-input-icon" aria-hidden="true">✉</span>
 
-                        <input
-                            type="email"
-                            id="correo"
-                            name="correo"
-                            placeholder="ejemplo@correo.com"
-                            autocomplete="email"
-                            required>
+                        <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com"
+                            autocomplete="email" required>
 
                     </div>
 
@@ -159,13 +139,8 @@
 
                         <span class="auth-input-icon" aria-hidden="true">♙</span>
 
-                        <input
-                            type="text"
-                            id="user"
-                            name="user"
-                            placeholder="Elige un nombre de usuario"
-                            autocomplete="username"
-                            required>
+                        <input type="text" id="user" name="user" placeholder="Elige un nombre de usuario"
+                            autocomplete="username" required>
 
                     </div>
 
@@ -181,13 +156,8 @@
 
                         <span class="auth-input-icon" aria-hidden="true">⌑</span>
 
-                        <input
-                            type="password"
-                            id="key1"
-                            name="key1"
-                            placeholder="Contraseña"
-                            autocomplete="new-password"
-                            required>
+                        <input type="password" id="key1" name="key1" placeholder="Contraseña"
+                            autocomplete="new-password" required>
 
                     </div>
 
@@ -203,18 +173,20 @@
 
                         <span class="auth-input-icon" aria-hidden="true">⌑</span>
 
-                        <input
-                            type="password"
-                            id="key2"
-                            name="key2"
-                            placeholder="Repite la contraseña"
-                            autocomplete="new-password"
-                            required>
+                        <input type="password" id="key2" name="key2" placeholder="Repite la contraseña"
+                            autocomplete="new-password" required>
 
                     </div>
 
                 </div>
-
+                
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="error-registro">
+                        <span class="icono">❌</span>
+                        <span><?= htmlspecialchars($_SESSION['error']) ?></span>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
 
                 <!-- BOTÓN REGISTRAR -->
                 <button type="submit" class="auth-submit auth-submit-full">
@@ -253,4 +225,5 @@
     </main>
 
 </body>
+
 </html>

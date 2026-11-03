@@ -1,21 +1,22 @@
 <?php
 
 require 'db.php';
-
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Recoger los datos del formulario register.php
     $nombre = trim($_POST['nombre'] ?? '');
-    $apellidos = trim($_POST['apellidos'] ?? '');
+    $apellidos = $_POST['apellidos'] ?? '';
     $correo = trim($_POST['correo'] ?? '');
     $usuario = trim($_POST['user'] ?? '');
     $key1 = trim($_POST['key1'] ?? '');
     $key2 = trim($_POST['key2'] ?? '');
     //valida las 2 contraseñas 
     if ($key1 !== $key2) {
-        die("Las contraseñas no coincide");
-        //si falla entra esta seccion
+        $_SESSION['error']= "Las contraseñas no coinciden.";
+        header("Location: ../register.php");
+        exit();
     }
 
     $sqlUsuario = "SELECT id FROM usuarios WHERE usuario = ?";
@@ -35,7 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = $stmt->get_result();
 
     if ($resultado->num_rows > 0) {
-        die("El correo electrónico ya existe");
+        $_SESSION['error']= "Este correo electrónico ya está registrado.";
+        header("Location: ../register.php");
     }
 
     $sqlInsert = "INSERT INTO usuarios (nombre,apellidos,correo,usuario,contrasena)
@@ -50,7 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
 
     } else {
-        echo "Error al guardar: " . $stmt->error;
+        $_SESSION['error']= "Error en el base de datos.";
+        header("Location: ../register.php");
+        exit();
     }
 }
 ?>

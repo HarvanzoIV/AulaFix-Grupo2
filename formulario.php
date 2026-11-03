@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+$usuario = $_SESSION['usuario'] ?? '';
+if (empty($usuario)) {
+    header('Location: login.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -28,11 +31,7 @@
 
         </a>
 
-        <button
-            class="theme-toggle"
-            id="theme-toggle"
-            type="button"
-            aria-pressed="false">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
 
             <span class="theme-icon" aria-hidden="true">☾</span>
             <span>Modo oscuro</span>
@@ -69,10 +68,8 @@
 
 
             <!-- FORMULARIO -->
-            <form
-                method="POST"
-                action="base_de_datos/cuenta.php"
-                class="auth-form">
+
+            <form method="POST" action="base_de_datos/cuenta.php" class="auth-form">
 
                 <div class="auth-field">
 
@@ -82,13 +79,8 @@
 
                         <span class="auth-input-icon" aria-hidden="true">♙</span>
 
-                        <input
-                            type="text"
-                            id="user"
-                            name="user"
-                            placeholder="Introduce tu usuario"
-                            autocomplete="username"
-                            required>
+                        <input type="text" id="user" name="user" placeholder="Introduce tu usuario"
+                            autocomplete="username" required>
 
                     </div>
 
@@ -103,18 +95,19 @@
 
                         <span class="auth-input-icon" aria-hidden="true">⌑</span>
 
-                        <input
-                            type="password"
-                            id="key"
-                            name="key"
-                            placeholder="Introduce tu contraseña"
-                            autocomplete="current-password"
-                            required>
+                        <input type="password" id="key" name="key" placeholder="Introduce tu contraseña"
+                            autocomplete="current-password" required>
 
                     </div>
 
                 </div>
-
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="error">
+                        <span class="icono">❌</span>
+                        <span><?= htmlspecialchars($_SESSION['error']) ?></span>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
 
                 <button type="submit" class="auth-submit">
 
