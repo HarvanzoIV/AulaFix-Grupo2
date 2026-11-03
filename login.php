@@ -115,7 +115,13 @@
                     </div>
 
                 </div>
-
+                
+                <div class="remember-session">
+                    <input type="checkbox" id="keep-logged" name="keep-logged">
+                    <label for="keep-logged">
+                        Mantener sesión iniciada
+                    </label>
+                </div>
 
                 <button type="submit" class="auth-submit">
 
