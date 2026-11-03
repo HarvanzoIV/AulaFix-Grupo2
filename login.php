@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(isset($_SESSION['usuario'])){
+    header("Location: listar.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">

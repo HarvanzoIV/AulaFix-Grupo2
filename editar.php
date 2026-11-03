@@ -207,14 +207,22 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
             </nav>
 
-            <div class="sidebar-bottom">
-                <div class="system-state">
-                    <span class="system-dot"></span>
-                    Sistema operativo
-                </div>
-            </div>
+       <div class="sidebar-bottom">
+    <div class="user-panel">
 
-        </aside>
+        <div class="user-greeting">
+            Hola <?php echo htmlspecialchars($_SESSION['usuario']); ?> 👋
+        </div>
+
+        <form action="includes/logout.php" method="post">
+            <button type="submit" class="logout-btn">
+                Cerrar sesión🚪
+            </button>
+        </form>
+
+    </div>
+    </div>
+    </aside>
 
 
         <!-- CONTENIDO PRINCIPAL -->
