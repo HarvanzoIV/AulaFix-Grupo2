@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -15,7 +14,8 @@ $incidencia = null;
 $error = '';
 
 // Escapar contenido HTML
-function e($value): string {
+function e($value): string
+{
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
@@ -44,6 +44,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Comprueba que todos los campos estén correctamente completados.';
     } else {
 
+        $stmtAnterior = $cn->prepare("
+        SELECT problema, ubicacion, prioridad, situacion
+        FROM incidencias
+        WHERE id = ?
+    ");
+
+        $stmtAnterior->bind_param("i", $id);
+        $stmtAnterior->execute();
+
+        $datosAnteriores = $stmtAnterior->get_result()->fetch_assoc();
+
+        $stmtAnterior->close();
+
         $sql = "UPDATE incidencias
                 SET problema = ?,
                     ubicacion = ?,
@@ -65,6 +78,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             if ($stmt->execute()) {
+
+                $campos = [
+                    'problema' => $problema,
+                    'ubicacion' => $ubicacion,
+                    'prioridad' => $prioridad,
+                    'situacion' => $situacion
+                ];
+
+                foreach ($campos as $campo => $valorNuevo) {
+
+                    $valorAnterior = $datosAnteriores[$campo];
+
+                    if ($valorAnterior != $valorNuevo) {
+
+                        $stmtHistorial = $cn->prepare("
+            INSERT INTO historial_incidencias
+            (
+                incidencia_id,
+                campo_modificado,
+                valor_anterior,
+                valor_nuevo
+            )
+            VALUES (?, ?, ?, ?)
+        ");
+
+                        $stmtHistorial->bind_param(
+                            "isss",
+                            $id,
+                            $campo,
+                            $valorAnterior,
+                            $valorNuevo
+                        );
+
+                        $stmtHistorial->execute();
+                        $stmtHistorial->close();
+                    }
+                }
+
                 $stmt->close();
 
                 header("Location: listar.php");
@@ -73,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'No se han podido guardar los cambios.';
                 $stmt->close();
             }
-
         } else {
             $error = 'No se ha podido preparar la actualización.';
         }
@@ -125,290 +175,291 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-<div class="app-shell">
+    <div class="app-shell">
 
-    <!-- BARRA LATERAL -->
-    <aside class="sidebar">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
 
-        <a class="brand" href="listar.php">
+            <a class="brand" href="listar.php">
 
-            <span class="brand-mark">A</span>
+                <span class="brand-mark">A</span>
 
-            <span class="brand-copy">
-                AulaFix
-                <small>INCIDENCE MANAGEMENT</small>
-            </span>
+                <span class="brand-copy">
+                    AulaFix
+                    <small>INCIDENCE MANAGEMENT</small>
+                </span>
 
-        </a>
-
-        <p class="nav-caption">Espacio de trabajo</p>
-
-        <nav class="side-nav">
-
-            <a class="active" href="listar.php">
-                <span class="nav-icon">▦</span>
-                <span>Incidencias</span>
             </a>
 
-            <a href="formulario.php">
-                <span class="nav-icon">＋</span>
-                <span>Nueva incidencia</span>
-            </a>
+            <p class="nav-caption">Espacio de trabajo</p>
 
-        </nav>
+            <nav class="side-nav">
 
-        <div class="sidebar-bottom">
-            <div class="system-state">
-                <span class="system-dot"></span>
-                Sistema operativo
-            </div>
-        </div>
-
-    </aside>
-
-
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="main-content">
-
-        <header class="topbar">
-
-            <div>
-                <p class="page-kicker">AULAFIX / GESTIÓN / EDICIÓN</p>
-
-                <h1>Editar incidencia</h1>
-
-                <p class="page-description">
-                    Actualiza los detalles de la incidencia y guarda los cambios.
-                </p>
-            </div>
-
-            <div class="topbar-actions">
-
-                <button
-                    class="theme-toggle"
-                    id="theme-toggle"
-                    type="button"
-                    aria-pressed="false">
-
-                    <span class="theme-icon">☾</span>
-                    <span>Modo oscuro</span>
-
-                </button>
-
-                <a class="btn btn-secondary" href="listar.php">
-                    ← Volver al listado
+                <a class="active" href="listar.php">
+                    <span class="nav-icon">▦</span>
+                    <span>Incidencias</span>
                 </a>
 
+                <a href="formulario.php">
+                    <span class="nav-icon">＋</span>
+                    <span>Nueva incidencia</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="system-state">
+                    <span class="system-dot"></span>
+                    Sistema operativo
+                </div>
             </div>
 
-        </header>
+        </aside>
 
 
-        <?php if ($incidencia): ?>
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
 
-            <section class="edit-layout">
+            <header class="topbar">
 
-                <!-- INFORMACIÓN DE LA INCIDENCIA -->
-                <div class="edit-context">
+                <div>
+                    <p class="page-kicker">AULAFIX / GESTIÓN / EDICIÓN</p>
 
-                    <div class="edit-context-icon">✎</div>
+                    <h1>Editar incidencia</h1>
 
-                    <div class="edit-context-copy">
+                    <p class="page-description">
+                        Actualiza los detalles de la incidencia y guarda los cambios.
+                    </p>
+                </div>
 
-                        <span class="edit-context-label">
-                            EDITANDO REGISTRO
-                        </span>
+                <div class="topbar-actions">
 
-                        <strong>
-                            Incidencia #<?= (int) $incidencia['id'] ?>
-                        </strong>
+                    <button
+                        class="theme-toggle"
+                        id="theme-toggle"
+                        type="button"
+                        aria-pressed="false">
 
-                        <p>
-                            Los cambios se aplicarán a esta incidencia cuando pulses «Guardar cambios».
-                        </p>
+                        <span class="theme-icon">☾</span>
+                        <span>Modo oscuro</span>
 
-                    </div>
+                    </button>
 
-                    <span class="edit-context-status">
-                        <span></span> Edición activa
-                    </span>
+                    <a class="btn btn-secondary" href="listar.php">
+                        ← Volver al listado
+                    </a>
 
                 </div>
 
+            </header>
 
-                <!-- FORMULARIO -->
-                <section class="form-card edit-form-card">
 
-                    <div class="form-intro">
+            <?php if ($incidencia): ?>
 
-                        <div class="form-intro-icon">☷</div>
+                <section class="edit-layout">
 
-                        <div>
-                            <h2>Información de la incidencia</h2>
+                    <!-- INFORMACIÓN DE LA INCIDENCIA -->
+                    <div class="edit-context">
+
+                        <div class="edit-context-icon">✎</div>
+
+                        <div class="edit-context-copy">
+
+                            <span class="edit-context-label">
+                                EDITANDO REGISTRO
+                            </span>
+
+                            <strong>
+                                Incidencia #<?= (int) $incidencia['id'] ?>
+                            </strong>
 
                             <p>
-                                Modifica los campos que necesites.
-                                Los datos actuales aparecen precargados.
+                                Los cambios se aplicarán a esta incidencia cuando pulses «Guardar cambios».
                             </p>
+
                         </div>
+
+                        <span class="edit-context-status">
+                            <span></span> Edición activa
+                        </span>
 
                     </div>
 
 
-                    <?php if ($error !== ''): ?>
+                    <!-- FORMULARIO -->
+                    <section class="form-card edit-form-card">
 
-                        <p class="badge priority-high">
-                            <?= e($error) ?>
-                        </p>
+                        <div class="form-intro">
 
-                    <?php endif; ?>
+                            <div class="form-intro-icon">☷</div>
 
+                            <div>
+                                <h2>Información de la incidencia</h2>
 
-                    <form method="POST" action="editar.php">
-
-                        <input
-                            type="hidden"
-                            name="id"
-                            value="<?= (int) $incidencia['id'] ?>">
-
-                        <div class="form-grid">
-
-                            <div class="form-field form-field-full">
-
-                                <label for="problema">Problema</label>
-
-                                <input
-                                    id="problema"
-                                    type="text"
-                                    name="problema"
-                                    value="<?= e($incidencia['problema']) ?>"
-                                    placeholder="Describe brevemente el problema"
-                                    required>
-
-                                <p class="form-help">
-                                    Describe qué ha ocurrido para facilitar su seguimiento.
+                                <p>
+                                    Modifica los campos que necesites.
+                                    Los datos actuales aparecen precargados.
                                 </p>
-
-                            </div>
-
-
-                            <div class="form-field form-field-full">
-
-                                <label for="ubicacion">Ubicación</label>
-
-                                <input
-                                    id="ubicacion"
-                                    type="text"
-                                    name="ubicacion"
-                                    value="<?= e($incidencia['ubicacion']) ?>"
-                                    placeholder="Ej. Aula 2, laboratorio o recepción"
-                                    required>
-
-                            </div>
-
-
-                            <div class="form-field">
-
-                                <label for="prioridad">Prioridad</label>
-
-                                <select id="prioridad" name="prioridad" required>
-
-                                    <option value="Baja"
-                                        <?= $incidencia['prioridad'] === 'Baja' ? 'selected' : '' ?>>
-                                        Baja
-                                    </option>
-
-                                    <option value="Media"
-                                        <?= $incidencia['prioridad'] === 'Media' ? 'selected' : '' ?>>
-                                        Media
-                                    </option>
-
-                                    <option value="Alta"
-                                        <?= $incidencia['prioridad'] === 'Alta' ? 'selected' : '' ?>>
-                                        Alta
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="form-field">
-
-                                <label for="situacion">Situación</label>
-
-                                <select id="situacion" name="situacion" required>
-
-                                    <option value="Abierta"
-                                        <?= $incidencia['situacion'] === 'Abierta' ? 'selected' : '' ?>>
-                                        Abierta
-                                    </option>
-
-                                    <option value="En proceso"
-                                        <?= $incidencia['situacion'] === 'En proceso' ? 'selected' : '' ?>>
-                                        En proceso
-                                    </option>
-
-                                    <option value="Resuelta"
-                                        <?= $incidencia['situacion'] === 'Resuelta' ? 'selected' : '' ?>>
-                                        Resuelta
-                                    </option>
-
-                                </select>
-
                             </div>
 
                         </div>
 
 
-                        <div class="form-actions">
+                        <?php if ($error !== ''): ?>
 
-                            <button class="btn btn-primary" type="submit">
-                                ✓ Guardar cambios
-                            </button>
+                            <p class="badge priority-high">
+                                <?= e($error) ?>
+                            </p>
 
-                            <a class="btn btn-secondary" href="listar.php">
-                                Cancelar
-                            </a>
+                        <?php endif; ?>
 
-                        </div>
 
-                    </form>
+                        <form method="POST" action="editar.php">
+
+                            <input
+                                type="hidden"
+                                name="id"
+                                value="<?= (int) $incidencia['id'] ?>">
+
+                            <div class="form-grid">
+
+                                <div class="form-field form-field-full">
+
+                                    <label for="problema">Problema</label>
+
+                                    <input
+                                        id="problema"
+                                        type="text"
+                                        name="problema"
+                                        value="<?= e($incidencia['problema']) ?>"
+                                        placeholder="Describe brevemente el problema"
+                                        required>
+
+                                    <p class="form-help">
+                                        Describe qué ha ocurrido para facilitar su seguimiento.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-field form-field-full">
+
+                                    <label for="ubicacion">Ubicación</label>
+
+                                    <input
+                                        id="ubicacion"
+                                        type="text"
+                                        name="ubicacion"
+                                        value="<?= e($incidencia['ubicacion']) ?>"
+                                        placeholder="Ej. Aula 2, laboratorio o recepción"
+                                        required>
+
+                                </div>
+
+
+                                <div class="form-field">
+
+                                    <label for="prioridad">Prioridad</label>
+
+                                    <select id="prioridad" name="prioridad" required>
+
+                                        <option value="Baja"
+                                            <?= $incidencia['prioridad'] === 'Baja' ? 'selected' : '' ?>>
+                                            Baja
+                                        </option>
+
+                                        <option value="Media"
+                                            <?= $incidencia['prioridad'] === 'Media' ? 'selected' : '' ?>>
+                                            Media
+                                        </option>
+
+                                        <option value="Alta"
+                                            <?= $incidencia['prioridad'] === 'Alta' ? 'selected' : '' ?>>
+                                            Alta
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-field">
+
+                                    <label for="situacion">Situación</label>
+
+                                    <select id="situacion" name="situacion" required>
+
+                                        <option value="Abierta"
+                                            <?= $incidencia['situacion'] === 'Abierta' ? 'selected' : '' ?>>
+                                            Abierta
+                                        </option>
+
+                                        <option value="En proceso"
+                                            <?= $incidencia['situacion'] === 'En proceso' ? 'selected' : '' ?>>
+                                            En proceso
+                                        </option>
+
+                                        <option value="Resuelta"
+                                            <?= $incidencia['situacion'] === 'Resuelta' ? 'selected' : '' ?>>
+                                            Resuelta
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button class="btn btn-primary" type="submit">
+                                    ✓ Guardar cambios
+                                </button>
+
+                                <a class="btn btn-secondary" href="listar.php">
+                                    Cancelar
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </section>
+
+
+                    <p class="edit-footnote">
+                        <span>ⓘ</span>
+                        Comprueba que la información sea correcta antes de guardar los cambios.
+                    </p>
 
                 </section>
 
+            <?php else: ?>
 
-                <p class="edit-footnote">
-                    <span>ⓘ</span>
-                    Comprueba que la información sea correcta antes de guardar los cambios.
-                </p>
+                <!-- INCIDENCIA NO ENCONTRADA -->
+                <section class="detail-panel detail-not-found">
 
-            </section>
+                    <div class="empty-icon">!</div>
 
-        <?php else: ?>
+                    <h2>No se ha encontrado la incidencia</h2>
 
-            <!-- INCIDENCIA NO ENCONTRADA -->
-            <section class="detail-panel detail-not-found">
+                    <p>
+                        El identificador no es válido o la incidencia ya no existe.
+                    </p>
 
-                <div class="empty-icon">!</div>
+                    <a class="btn btn-primary" href="listar.php">
+                        ← Volver al listado
+                    </a>
 
-                <h2>No se ha encontrado la incidencia</h2>
+                </section>
 
-                <p>
-                    El identificador no es válido o la incidencia ya no existe.
-                </p>
+            <?php endif; ?>
 
-                <a class="btn btn-primary" href="listar.php">
-                    ← Volver al listado
-                </a>
+        </main>
 
-            </section>
-
-        <?php endif; ?>
-
-    </main>
-
-</div>
+    </div>
 
 </body>
+
 </html>
