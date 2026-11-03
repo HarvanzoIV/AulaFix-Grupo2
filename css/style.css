@@ -1911,3 +1911,23 @@ tr[hidden] {
     font-size: 18px;
     line-height: 1;
 }
+
+.error-registro{
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 16px;
+
+    background: #f1d0d5;
+    border-left: 4px solid #ff4569;
+    border-radius: 8px;
+
+    color: #9b2323;
+    font-weight: 600;
+}
