@@ -18,7 +18,7 @@
   --border: #e5eaf2;
   --primary: #5268e8;
   --primary-hover: #4055d2;
-  --primary-soft: #edf0ff;
+  --primary-soft: #717797;
   --cyan: #39b8c9;
   --green: #169b70;
   --green-soft: #e6f7f0;
@@ -745,6 +745,9 @@ td:first-child {
     padding-right: 22px;
     padding-left: 22px;
   }
+}
+.logo{
+  width: 60%;
 }
 
 @media (max-width: 680px) {

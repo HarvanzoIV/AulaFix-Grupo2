@@ -11,6 +11,7 @@ if(isset($_SESSION['usuario'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#111a2e">
+    <link rel ="icon" type = "image/x-icon" href="img/logo.png">
 
     <title>AulaFix | Crear cuenta</title>
 
@@ -25,7 +26,7 @@ if(isset($_SESSION['usuario'])){
 
         <a href="login.php" class="brand auth-brand">
 
-            <span class="brand-mark">A</span>
+            <span class="brand-mark"><img src = "img/logo.png" class = "logo"></span>
 
             <span class="brand-copy">
                 AulaFix
@@ -61,7 +62,7 @@ if(isset($_SESSION['usuario'])){
             <div class="auth-card-header">
 
                 <div class="auth-icon">
-                    <span aria-hidden="true">✚</span>
+                    <img src = "img/logo.png" class = "logo">
                 </div>
 
                 <p class="auth-eyebrow">

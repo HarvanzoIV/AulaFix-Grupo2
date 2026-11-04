@@ -14,6 +14,8 @@ if (empty($usuario)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#111a2e">
     <title>AulaFix | Nueva incidencia</title>
+    <link rel ="icon" type = "image/x-icon" href="img/logo.png">
+
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
 </head>
@@ -21,7 +23,7 @@ if (empty($usuario)) {
 <div class="app-shell">
     <aside class="sidebar">
         <a class="brand" href="listar.php" aria-label="AulaFix, ir al panel">
-            <span class="brand-mark">A</span>
+            <span class="brand-mark"><img src = "img/logo.png" class = "logo"></span>
             <span class="brand-copy">AulaFix<small>INCIDENCE MANAGEMENT</small></span>
         </a>
 

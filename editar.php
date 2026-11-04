@@ -166,7 +166,7 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#111a2e">
-
+    <link rel ="icon" type = "image/x-icon" href="img/logo.png">
     <title>AulaFix | Editar incidencia</title>
 
     <link rel="stylesheet" href="css/style.css">
@@ -182,7 +182,7 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <a class="brand" href="listar.php">
 
-                <span class="brand-mark">A</span>
+                <span class="brand-mark"><img src = "img/logo.png" class = "logo"></span>
 
                 <span class="brand-copy">
                     AulaFix
