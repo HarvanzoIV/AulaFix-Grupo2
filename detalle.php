@@ -228,8 +228,9 @@ $camposLargos = ['problema', 'descripcion', 'observaciones', 'comentarios', 'det
 
                             <?php else: ?>
 
-                                <p>No hay cambios registrados para esta incidencia.</p>
-
+                                <div class="sin-historial">
+                                    Todavía no se han realizado cambios en esta incidencia.
+                                </div>
                             <?php endif; ?>
                         </section>
 

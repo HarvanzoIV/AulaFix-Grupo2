@@ -1987,3 +1987,9 @@ tr[hidden] {
 .success .icono{
     font-size: 18px;
 }
+.sin-historial {
+    padding: 30px;
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+}
