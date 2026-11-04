@@ -46,7 +46,7 @@ if (empty($usuario)) {
             Hola <?php echo htmlspecialchars($_SESSION['usuario']); ?> 👋
         </div>
 
-        <form action="includes/logout.php" method="post">
+        <form action="logout.php" method="post">
             <button type="submit" class="logout-btn">
                 Cerrar sesión🚪
             </button>
