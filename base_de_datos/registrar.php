@@ -5,55 +5,89 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //Recoger los datos del formulario register.php
     $nombre = trim($_POST['nombre'] ?? '');
-    $apellidos = $_POST['apellidos'] ?? '';
+    $apellidos = trim($_POST['apellidos'] ?? '');
     $correo = trim($_POST['correo'] ?? '');
     $usuario = trim($_POST['user'] ?? '');
     $key1 = trim($_POST['key1'] ?? '');
     $key2 = trim($_POST['key2'] ?? '');
-    //valida las 2 contraseñas 
+
+    // Validar contraseñas
     if ($key1 !== $key2) {
-        $_SESSION['error']= "Las contraseñas no coinciden.";
+        $_SESSION['error'] = "Las contraseñas no coinciden.";
         header("Location: ../register.php");
         exit();
     }
 
-    $sqlUsuario = "SELECT id FROM usuarios WHERE usuario = ?";
-    $stmt = $cn->prepare($sqlUsuario);
-    $stmt->bind_param("s", $usuario);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+    try {
 
-    if ($resultado->num_rows > 0) {
-        $_SESSION['error']= "Este usuario ya está registrado.";
-        header("Location: ../register.php");
-    }
+        // Iniciar transacción
+        $cn->begin_transaction();
 
-    $sqlCorreo = "SELECT id FROM usuarios WHERE correo = ?";
-    $stmt = $cn->prepare($sqlCorreo);
-    $stmt->bind_param("s", $correo);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+        // Comprobar usuario
+        $sqlUsuario = "SELECT id FROM usuarios WHERE usuario = ?";
+        $stmt = $cn->prepare($sqlUsuario);
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-    if ($resultado->num_rows > 0) {
-        $_SESSION['error']= "Este correo electrónico ya está registrado.";
-        header("Location: ../register.php");
-    }
+        if ($resultado->num_rows > 0) {
+            throw new Exception("Este usuario ya está registrado.");
+        }
 
-    $sqlInsert = "INSERT INTO usuarios (nombre,apellidos,correo,usuario,contrasena)
-              VALUES (?, ?, ?, ?, ?)";
+        $stmt->close();
 
-    $stmt = $cn->prepare($sqlInsert);
-    $stmt->bind_param("sssss", $nombre, $apellidos, $correo, $usuario, $key1);
-    if ($stmt->execute()) {
+        // Comprobar correo
+        $sqlCorreo = "SELECT id FROM usuarios WHERE correo = ?";
+        $stmt = $cn->prepare($sqlCorreo);
+        $stmt->bind_param("s", $correo);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-        $_SESSION['success'] = 'Cuenta creada correctamente. Ya puedes iniciar sesión.';
-        header('Location: ../login.php');
-        exit;
+        if ($resultado->num_rows > 0) {
+            throw new Exception("Este correo electrónico ya está registrado.");
+        }
 
-    } else {
-        $_SESSION['error']= "Error en la base de datos.";
+        $stmt->close();
+
+        // Hash de contraseña
+        $hash = password_hash($key1, PASSWORD_DEFAULT);
+
+        // Insertar usuario
+        $sqlInsert = "
+            INSERT INTO usuarios
+            (nombre, apellidos, correo, usuario, contrasena)
+            VALUES (?, ?, ?, ?, ?)
+        ";
+
+        $stmt = $cn->prepare($sqlInsert);
+        $stmt->bind_param(
+            "sssss",
+            $nombre,
+            $apellidos,
+            $correo,
+            $usuario,
+            $hash
+        );
+
+        $stmt->execute();
+
+        // Confirmar transacción
+        $cn->commit();
+
+        $_SESSION['success'] =
+            "Cuenta creada correctamente. Ya puedes iniciar sesión.";
+
+        header("Location: ../login.php");
+        exit();
+
+    } catch (Exception $e) {
+
+        // Deshacer cambios
+        $cn->rollback();
+
+        $_SESSION['error'] = $e->getMessage();
+
         header("Location: ../register.php");
         exit();
     }
