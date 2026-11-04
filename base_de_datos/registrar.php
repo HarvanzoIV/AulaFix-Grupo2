@@ -26,7 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = $stmt->get_result();
 
     if ($resultado->num_rows > 0) {
-        die("El nombre de usuario ya existe");
+        $_SESSION['error']= "Este usuario ya está registrado.";
+        header("Location: ../register.php");
     }
 
     $sqlCorreo = "SELECT id FROM usuarios WHERE correo = ?";
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
 
     } else {
-        $_SESSION['error']= "Error en el base de datos.";
+        $_SESSION['error']= "Error en la base de datos.";
         header("Location: ../register.php");
         exit();
     }
