@@ -166,7 +166,7 @@ $camposLargos = ['problema', 'descripcion', 'observaciones', 'comentarios', 'det
 
                     <section class="detail-panel">
                         <div class="detail-panel-heading">
-                            <div class="detail-panel-icon" aria-hidden="true">▤</div>
+                            <div class="detail-panel-icon botond" aria-hidden="true">▤</div>
                             <div>
                                 <h2>Información registrada</h2>
                                 <p>Los datos se muestran tal y como están guardados en la incidencia.</p>

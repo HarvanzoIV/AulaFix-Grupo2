@@ -34,6 +34,9 @@
 }
 
 :root[data-theme="dark"] {
+  .botond{
+    background-color: #02226c;
+  }
   color-scheme: dark;
   --page: #0c1220;
   --surface: #141e30;
@@ -629,8 +632,8 @@ td:first-child {
   height: 44px;
   flex: 0 0 44px;
   place-items: center;
-  border-radius: 14px;
-  background: var(--primary-soft);
+  border: 1px solid var(--primary-soft);
+  border-radius: 13px;
   color: var(--primary);
   font-size: 20px;
 }
@@ -1018,13 +1021,17 @@ td:first-child {
   font-size: 10px;
   font-weight: 700;
 }
-
+.botond{
+  background-color: white;
+}
+.botond [data-theme="dark"]{
+  background-color:black;
+}
 .btn-detail {
   min-height: 32px;
   padding: 0 10px;
   border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
   border-radius: 9px;
-  background: var(--primary-soft);
   color: var(--primary);
   font-size: 11px;
 }
@@ -1345,8 +1352,8 @@ tr[hidden] {
   height: 42px;
   flex: 0 0 42px;
   place-items: center;
+  border: 1px solid var(--primary-soft);
   border-radius: 13px;
-  background: var(--primary-soft);
   color: var(--primary);
   font-size: 20px;
 }

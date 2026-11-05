@@ -269,7 +269,7 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
                     <!-- INFORMACIÓN DE LA INCIDENCIA -->
                     <div class="edit-context">
 
-                        <div class="edit-context-icon">✎</div>
+                        <div class="edit-context-icon botond">✎</div>
 
                         <div class="edit-context-copy">
 
@@ -299,7 +299,7 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="form-intro">
 
-                            <div class="form-intro-icon">☷</div>
+                            <div class="form-intro-icon botond">☷</div>
 
                             <div>
                                 <h2>Información de la incidencia</h2>

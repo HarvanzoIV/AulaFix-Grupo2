@@ -175,7 +175,7 @@ function claseSituacion($situacion): string
                                 </td>
                                 <td>
                                     <div class="action-group">
-                                        <a class="btn btn-detail" href="detalle.php?id=<?= (int) $fila['id'] ?>">Ver detalle</a>
+                                        <a class="btn btn-detail botond" href="detalle.php?id=<?= (int) $fila['id'] ?>">Ver detalle</a>
                                         <a class="btn btn-edit" href="editar.php?id=<?= (int) $fila['id'] ?>">Editar</a>
                                         <form method="POST" action="listar.php" onsubmit="return confirm('¿Seguro que deseas eliminar esta incidencia? Esta acción no se puede deshacer.');">
                                             <input type="hidden" name="id" value="<?= (int) $fila['id'] ?>">
