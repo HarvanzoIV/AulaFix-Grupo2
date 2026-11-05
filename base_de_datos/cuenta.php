@@ -20,9 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $fila = $resultado->fetch_assoc();
 
-    if ($key == $fila['contrasena']) {
+    if (password_verify($key, $fila['contrasena'])) {
+
         $_SESSION['usuario'] = $usuario;
-        $_SESSION['key'] = $fila['contrasena'];
+        $_SESSION['id_usuario'] = $fila['id'];
 
         header("Location: ../listar.php");
         exit();

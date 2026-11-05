@@ -214,7 +214,7 @@ if ($incidencia && $_SERVER['REQUEST_METHOD'] === 'POST') {
             Hola <?php echo htmlspecialchars($_SESSION['usuario']); ?> 👋
         </div>
 
-        <form action=logout.php" method="post">
+        <form action="logout.php" method="post">
             <button type="submit" class="logout-btn">
                 Cerrar sesión🚪
             </button>
